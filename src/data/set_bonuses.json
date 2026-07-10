@@ -1,0 +1,35 @@
+{
+	"void_walker": {
+		"name": "Void Walker",
+		"pieces": ["shield", "engine", "utility"],
+		"bonuses": {
+			"2": {"shield_recharge": 15, "description": "Shield recharge +15%"},
+			"3": {"cloak_on_demand": true, "shield_recharge": 25, "description": "Cloak on demand, shield recharge +25%"}
+		}
+	},
+	"reaper": {
+		"name": "Reaper",
+		"pieces": ["weapon", "shield", "engine"],
+		"bonuses": {
+			"2": {"life_steal": 0.05, "description": "5% life steal"},
+			"3": {"life_steal": 0.12, "crit_chance": 0.10, "description": "12% life steal, +10% crit chance"}
+		}
+	},
+	"pyro": {
+		"name": "Pyro",
+		"pieces": ["weapon", "weapon", "armor"],
+		"bonuses": {
+			"2": {"fire_damage_bonus": 0.25, "description": "+25% fire damage"},
+			"3": {"fire_immunity": true, "all_weapons_apply_fire": true, "description": "Fire immunity, all weapons apply fire"}
+		}
+	},
+	"ancient": {
+		"name": "Ancient",
+		"pieces": ["weapon", "shield", "armor", "special"],
+		"bonuses": {
+			"2": {"all_stats": 0.10, "description": "+10% all stats"},
+			"3": {"all_stats": 0.20, "true_damage_on_crit": true, "description": "+20% all stats, true damage on crit"},
+			"4": {"all_stats": 0.30, "ancient_shield": true, "description": "+30% all stats, ancient shield absorbs all types"}
+		}
+	}
+}

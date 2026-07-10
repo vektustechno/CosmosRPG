@@ -1,0 +1,62 @@
+[
+	{
+		"item_id": "laser_mk1",
+		"item_name": "Laser Mk1",
+		"item_type": "weapon",
+		"base_stats": {"damage": 10, "range": 6, "ap_cost": 2, "accuracy": 0.95}
+	},
+	{
+		"item_id": "plasma_cannon",
+		"item_name": "Plasma Cannon",
+		"item_type": "weapon",
+		"base_stats": {"damage": 25, "range": 4, "ap_cost": 3, "accuracy": 0.8, "aoe_radius": 1}
+	},
+	{
+		"item_id": "shield_mk1",
+		"item_name": "Shield Mk1",
+		"item_type": "shield",
+		"base_stats": {"shield_capacity": 100, "shield_regen": 5}
+	},
+	{
+		"item_id": "shield_mk2",
+		"item_name": "Shield Mk2",
+		"item_type": "shield",
+		"base_stats": {"shield_capacity": 200, "shield_regen": 8}
+	},
+	{
+		"item_id": "engine_t1",
+		"item_name": "Engine T1",
+		"item_type": "engine",
+		"base_stats": {"speed_bonus": 0, "turn_rate_bonus": 0}
+	},
+	{
+		"item_id": "reactor_mk1",
+		"item_name": "Reactor Mk1",
+		"item_type": "reactor",
+		"base_stats": {"power_bonus": 25}
+	},
+	{
+		"item_id": "armor_plating",
+		"item_name": "Armor Plating",
+		"item_type": "armor",
+		"base_stats": {"hull_bonus": 50, "armor_rating": 5}
+	},
+	{
+		"item_id": "repair_drone",
+		"item_name": "Repair Drone",
+		"item_type": "utility",
+		"base_stats": {"repair_amount": 10}
+	},
+	{
+		"item_id": "sensor_array",
+		"item_name": "Sensor Array",
+		"item_type": "utility",
+		"base_stats": {"scan_range_bonus": 3}
+	},
+	{
+		"item_id": "void_artifact",
+		"item_name": "Void Artifact",
+		"item_type": "special",
+		"base_stats": {"all_stats": 0.05}
+	}
+]
