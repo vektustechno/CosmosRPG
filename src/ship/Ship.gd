@@ -20,9 +20,15 @@ var action_points: int = 0
 var max_action_points: int = 6
 
 var weapon_mounts: Array = []
-var equipped_items: Dictionary = {}
+var equipped_items: Dictionary = {
+	"weapon": [], "shield": [], "engine": null, "reactor": null,
+	"armor": [], "utility": [], "special": null
+}
+var inventory: Inventory = Inventory.new()
 
 var status_effects: Dictionary = {}
+
+var set_counts: Dictionary = {}
 
 func _ready() -> void:
 	hex_grid_ref = Global.hex_grid
@@ -122,6 +128,127 @@ func take_damage(amount: int, damage_type: String, from_direction: String) -> Di
 	}
 	var result = DamageCalculator.calculate_damage(attack, self, from_direction)
 	return result
+
+func calc_stats() -> void:
+	stats = ship_class.get_stats_summary()
+	
+	for slot_name in equipped_items.keys():
+		var items_in_slot = equipped_items[slot_name]
+		if items_in_slot is Array:
+			for item in items_in_slot:
+				if item is EquipmentData:
+					_apply_item_stats(item)
+		elif items_in_slot is EquipmentData:
+			_apply_item_stats(items_in_slot)
+	
+	max_hp = ship_class.base_hp + stats.get("hull_bonus", 0) + stats.get("max_hp_bonus", 0)
+	current_hp = mini(current_hp, max_hp)
+	
+	var shield_count = ship_class.slots.get("shield", 0)
+	if shield_count > 0:
+		var base_shield = ship_class.base_power * 2 + stats.get("shield_capacity_bonus", 0)
+		var shield_mult = 1.0 + stats.get("shield_capacity", 0) / 100.0
+		base_shield = int(base_shield * shield_mult)
+		for side in ["front", "left", "right", "rear"]:
+			max_shields[side] = base_shield
+		shield_regen = max(1, base_shield / 10) + stats.get("shield_regen_bonus", 0)
+		shield_regen = int(shield_regen * (1.0 + stats.get("shield_recharge", 0) / 100.0))
+	
+	max_action_points = ship_class.base_speed + 3 + stats.get("speed_bonus", 0)
+	
+	_calc_set_bonuses()
+
+func _apply_item_stats(item: EquipmentData) -> void:
+	var total = item.get_total_stats()
+	for key in total.keys():
+		stats[key] = stats.get(key, 0) + total[key]
+
+func _calc_set_bonuses() -> void:
+	set_counts.clear()
+	var set_pieces = {}
+	
+	for slot_name in equipped_items.keys():
+		var items_in_slot = equipped_items[slot_name]
+		if items_in_slot is Array:
+			for item in items_in_slot:
+				if item is EquipmentData and item.set_id != "":
+					if not set_pieces.has(item.set_id):
+						set_pieces[item.set_id] = []
+					set_pieces[item.set_id].append(item.set_piece)
+		elif items_in_slot is EquipmentData and items_in_slot.set_id != "":
+			if not set_pieces.has(items_in_slot.set_id):
+				set_pieces[items_in_slot.set_id] = []
+			set_pieces[items_in_slot.set_id].append(items_in_slot.set_piece)
+	
+	var sets_data = _load_sets_data()
+	for set_id in set_pieces.keys():
+		var count = set_pieces[set_id].size()
+		set_counts[set_id] = count
+		var set_info = sets_data.get(set_id, {})
+		var bonuses = set_info.get("bonuses", {})
+		for piece_count_str in bonuses.keys():
+			var piece_count = int(piece_count_str)
+			if count >= piece_count:
+				var bonus = bonuses[piece_count_str]
+				for key in bonus.keys():
+					if key == "description":
+						continue
+					stats[key] = stats.get(key, 0) + (bonus[key] if typeof(bonus[key]) == TYPE_INT or typeof(bonus[key]) == TYPE_FLOAT else 0)
+
+func _load_sets_data() -> Dictionary:
+	var file = FileAccess.open("res://src/data/set_bonuses.json", FileAccess.READ)
+	if not file:
+		return {}
+	return JSON.parse_string(file.get_as_text()) or {}
+
+func equip(item: EquipmentData, slot_name: String, slot_index: int = -1) -> bool:
+	if not inventory.has_item_ref(item):
+		return false
+	
+	var max_count = ship_class.slots.get(slot_name, 0)
+	if slot_name in ["weapon", "armor", "utility"]:
+		var current = equipped_items.get(slot_name, [])
+		if current.size() >= max_count:
+			return false
+		if slot_index >= 0 and slot_index < current.size():
+			var old = current[slot_index]
+			if old:
+				unequip(slot_name, slot_index)
+			current[slot_index] = item
+		else:
+			if not inventory.remove_item_by_ref(item):
+				return false
+			current.append(item)
+	elif slot_name in ["shield", "engine", "reactor", "special"]:
+		if equipped_items.get(slot_name) != null:
+			return false
+		if not inventory.remove_item_by_ref(item):
+			return false
+		equipped_items[slot_name] = item
+	
+	calc_stats()
+	return true
+
+func unequip(slot_name: String, slot_index: int = -1) -> bool:
+	if slot_name in ["weapon", "armor", "utility"]:
+		var current = equipped_items.get(slot_name, [])
+		var item = null
+		if slot_index >= 0 and slot_index < current.size():
+			item = current[slot_index]
+			if item:
+				current[slot_index] = null
+		if item:
+			inventory.add_item(item)
+			calc_stats()
+			return true
+	elif slot_name in ["shield", "engine", "reactor", "special"]:
+		var item = equipped_items.get(slot_name)
+		if item:
+			equipped_items[slot_name] = null
+			inventory.add_item(item)
+			calc_stats()
+			return true
+	return false
 
 func regenerate_shields() -> void:
 	for side in current_shields.keys():

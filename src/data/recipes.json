@@ -1,0 +1,34 @@
+{
+	"laser_mk2": {
+		"name": "Laser Mk2 Upgrade",
+		"ingredients": {"scrap": 10, "components": 5, "crystals": 2},
+		"cost": 2000,
+		"result_type": "laser_mk1",
+		"result_rarity": "uncommon",
+		"result_level": 10
+	},
+	"shield_mk2_craft": {
+		"name": "Shield Mk2",
+		"ingredients": {"scrap": 15, "components": 10, "crystals": 5},
+		"cost": 5000,
+		"result_type": "shield_mk2",
+		"result_rarity": "uncommon",
+		"result_level": 15
+	},
+	"repair_drone_craft": {
+		"name": "Repair Drone",
+		"ingredients": {"scrap": 20, "components": 15, "electronics": 5},
+		"cost": 8000,
+		"result_type": "repair_drone",
+		"result_rarity": "rare",
+		"result_level": 20
+	},
+	"sensor_array_craft": {
+		"name": "Sensor Array",
+		"ingredients": {"scrap": 10, "components": 8, "crystals": 3},
+		"cost": 3000,
+		"result_type": "sensor_array",
+		"result_rarity": "uncommon",
+		"result_level": 10
+	}
+}
