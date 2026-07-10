@@ -17,7 +17,7 @@ static func generate_inventory(station: StationData, player_level: int) -> Array
 	return items
 
 static func buy_item(item: EquipmentData, player_inventory: Inventory, player_credits: int) -> Dictionary:
-	var price = _calculate_price(item)
+	var price = calculate_price(item)
 	if player_credits < price:
 		return {"success": false, "reason": "Not enough credits"}
 	
@@ -32,12 +32,12 @@ static func sell_item(item_index: int, player_inventory: Inventory) -> Dictionar
 	if not item:
 		return {"success": false, "reason": "Item not found"}
 	
-	var price = int(_calculate_price(item) * 0.5)
+	var price = int(calculate_price(item) * 0.5)
 	player_inventory.remove_item(item_index)
 	player_inventory.add_credits(price)
 	return {"success": true, "price": price}
 
-static func _calculate_price(item: EquipmentData) -> int:
+static func calculate_price(item: EquipmentData) -> int:
 	var rarity_mult = [0.3, 1.0, 2.0, 5.0, 12.0, 30.0, 75.0, 200.0]
 	var tier = item.get_rarity_tier() - 1
 	var mult = rarity_mult[clampi(tier, 0, rarity_mult.size() - 1)]

@@ -13,7 +13,7 @@ func _ready() -> void:
 	_register_missions()
 
 func _register_missions() -> void:
-	pass
+	StoryLoader.load_all(self)
 
 func register_mission(mission: MissionData) -> void:
 	all_missions[mission.mission_id] = mission

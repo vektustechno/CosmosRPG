@@ -1,0 +1,270 @@
+{
+	"prologue": [
+		{
+			"mission_id": "prologue_01_first_flight",
+			"title": "First Flight",
+			"description": "Welcome, pilot. Your shuttle is ready at Bay 7. Head to the asteroid field to begin your training.",
+			"mission_type": "main",
+			"starting_dialog": "Dispatch: Pilot, this is your first flight. Follow the nav beacon to the training area. Use WASD to move and the mouse wheel to zoom.",
+			"completion_dialog": "Dispatch: Good flying, rookie. Now head back to the station for your next assignment.",
+			"objectives": [
+				{"objective_id": "prol1_move", "description": "Move your ship to the asteroid field marker", "objective_type": "go_to", "target": "asteroid_field", "amount": 1}
+			],
+			"rewards": {"xp": 50, "credits": 100, "items": [{"blueprint_id": "laser_mk1", "count": 1}]},
+			"prerequisites": [],
+			"next_missions": ["prologue_02_target_practice"],
+			"sector": 1
+		},
+		{
+			"mission_id": "prologue_02_target_practice",
+			"title": "Target Practice",
+			"description": "Your shuttle has been fitted with a basic laser. Destroy 3 training drones to prove your aim.",
+			"mission_type": "main",
+			"starting_dialog": "Dispatch: Weapons online. Three drones are waiting at the training range. Watch your weapon arcs — you can only fire forward.",
+			"completion_dialog": "Dispatch: Direct hits! You're a natural. Return to station for shield installation.",
+			"objectives": [
+				{"objective_id": "prol2_kill", "description": "Destroy training drones", "objective_type": "destroy", "target": "training_drone", "amount": 3}
+			],
+			"rewards": {"xp": 75, "credits": 150, "items": [{"blueprint_id": "shield_mk1", "count": 1}]},
+			"prerequisites": ["prologue_01_first_flight"],
+			"next_missions": ["prologue_03_pirate_ambush"],
+			"sector": 1
+		},
+		{
+			"mission_id": "prologue_03_pirate_ambush",
+			"title": "Pirate Ambush",
+			"description": "Pirate scouts have been spotted near the shipping lanes. Your shields are online — time for real combat.",
+			"mission_type": "main",
+			"starting_dialog": "Dispatch: Incoming distress call! Two pirate scouts are attacking a cargo hauler. Move to intercept!",
+			"completion_dialog": "Dispatch: Pirates neutralized. The hauler is safe. You've earned your pay today.",
+			"objectives": [
+				{"objective_id": "prol3_kill1", "description": "Destroy pirate scout 1", "objective_type": "destroy", "target": "pirate_scout", "amount": 1},
+				{"objective_id": "prol3_kill2", "description": "Destroy pirate scout 2", "objective_type": "destroy", "target": "pirate_scout", "amount": 1}
+			],
+			"rewards": {"xp": 100, "credits": 500},
+			"prerequisites": ["prologue_02_target_practice"],
+			"next_missions": ["prologue_04_distress_call"],
+			"sector": 1
+		},
+		{
+			"mission_id": "prologue_04_distress_call",
+			"title": "Distress Call",
+			"description": "A civilian transport is under attack. Escort them to safety while their engines reboot.",
+			"mission_type": "main",
+			"starting_dialog": "Transport Captain: Mayday! Mayday! Our engines are down! Pirates swarming! We need 3 turns to spool up the FTL drive!",
+			"completion_dialog": "Transport Captain: Thank you! The FTL is online. We owe you our lives. Here — take this engine component.",
+			"objectives": [
+				{"objective_id": "prol4_survive", "description": "Protect the transport for 3 turns", "objective_type": "survive_turns", "target": "transport", "amount": 3}
+			],
+			"rewards": {"xp": 150, "credits": 800, "items": [{"blueprint_id": "engine_t1", "count": 1}]},
+			"prerequisites": ["prologue_03_pirate_ambush"],
+			"next_missions": ["prologue_05_anomaly"],
+			"sector": 1,
+			"crew_reward": {"role": "engineer", "name": "Tinker Vex"}
+		},
+		{
+			"mission_id": "prologue_05_anomaly",
+			"title": "The Anomaly",
+			"description": "Sensors picked up a strange energy signature in the nebula. Investigate and collect a sample.",
+			"mission_type": "main",
+			"starting_dialog": "Science Officer: Captain, I'm reading unusual quantum fluctuations. We should scan the area and collect a sample if possible.",
+			"completion_dialog": "Science Officer: Fascinating! This crystal resonates at a frequency I've never seen. Run a full analysis when we're back.",
+			"objectives": [
+				{"objective_id": "prol5_scan", "description": "Scan the anomaly", "objective_type": "scan", "target": "anomaly", "amount": 1},
+				{"objective_id": "prol5_gather", "description": "Collect an anomaly sample", "objective_type": "gather", "target": "anomaly_sample", "amount": 1}
+			],
+			"rewards": {"xp": 125, "credits": 400, "items": [{"blueprint_id": "sensor_t1", "count": 1}]},
+			"prerequisites": ["prologue_04_distress_call"],
+			"next_missions": ["prologue_06_sector_clear"],
+			"sector": 1
+		},
+		{
+			"mission_id": "prologue_06_sector_clear",
+			"title": "Sector Sweep",
+			"description": "The pirate presence in this sector has grown too large. Eliminate 4 pirate vessels to secure the area.",
+			"mission_type": "main",
+			"starting_dialog": "Fleet Command: Pilot, we're preparing a major operation. First, we need the sector clear of hostiles. Take out any pirate ships you find.",
+			"completion_dialog": "Fleet Command: Sector secure. Excellent work, pilot. The shipyard has a Fighter class ready for you. You've earned an upgrade.",
+			"objectives": [
+				{"objective_id": "prol6_kill", "description": "Destroy pirate vessels", "objective_type": "destroy", "target": "pirate", "amount": 4}
+			],
+			"rewards": {"xp": 300, "credits": 1500},
+			"prerequisites": ["prologue_05_anomaly"],
+			"next_missions": ["prologue_07_pirate_base"],
+			"sector": 1
+		},
+		{
+			"mission_id": "prologue_07_pirate_base",
+			"title": "Pirate Base Assault",
+			"description": "The pirate leader's corvette is hiding in an asteroid fortress. Infiltrate and destroy it.",
+			"mission_type": "main",
+			"starting_dialog": "Fleet Command: Final mission, pilot. The pirate leader is in the asteroid belt. Their corvette is heavily armed — watch for the second phase. When shields hit 50%, they'll call reinforcements.",
+			"completion_dialog": "Fleet Command: Pirate leader eliminated! The sector is free. Congratulations, pilot — the gateway to Sector 2 is open. Your new Fighter awaits.",
+			"objectives": [
+				{"objective_id": "prol7_boss", "description": "Destroy the Pirate Corvette (boss)", "objective_type": "destroy", "target": "pirate_corvette_boss", "amount": 1}
+			],
+			"rewards": {"xp": 500, "credits": 3000, "items": [{"blueprint_id": "rare_laser_r1", "count": 1}], "ship_reward": "fighter"},
+			"prerequisites": ["prologue_06_sector_clear"],
+			"next_missions": ["story_s2_m1"],
+			"sector": 1
+		}
+	],
+	"main_story": [
+		{
+			"mission_id": "story_s2_m1",
+			"title": "Corruption in the Federation",
+			"description": "Welcome to Federation Space. Admiral Chen has requested your presence at Starbase Omega. There's a mole in the command structure.",
+			"mission_type": "main",
+			"starting_dialog": "Admiral Chen: Pilot, glad you made it. We have a problem. Someone is leaking patrol routes to pirates. I need you to investigate a suspicious cargo ship.",
+			"completion_dialog": "Admiral Chen: The cargo ship had Federation encryption keys. This reaches higher than I thought. I'm assigning you to the Border Worlds — the source of these leaks.",
+			"objectives": [
+				{"objective_id": "s2m1_talk", "description": "Report to Admiral Chen at Starbase Omega", "objective_type": "go_to", "target": "starbase_omega", "amount": 1},
+				{"objective_id": "s2m1_board", "description": "Board and investigate the cargo ship 'Merchant's Hope'", "objective_type": "go_to", "target": "merchants_hope", "amount": 1},
+				{"objective_id": "s2m1_escape", "description": "Survive the ambush and escape", "objective_type": "survive_turns", "target": "ambush", "amount": 5}
+			],
+			"rewards": {"xp": 800, "credits": 4000, "reputation": {"federation": 100}, "items": [{"blueprint_id": "shield_mk2", "count": 1}]},
+			"prerequisites": ["prologue_07_pirate_base"],
+			"next_missions": ["story_s2_m2"],
+			"sector": 2
+		},
+		{
+			"mission_id": "story_s2_m2",
+			"title": "The Mole Unmasked",
+			"description": "The trail leads to a Federation admiral who's been selling intel to the Dominion. Confront them.",
+			"mission_type": "main",
+			"starting_dialog": "Admiral Chen: I have the evidence. Admiral Torak has been compromised. But he's fortified his position in the Forge asteroid base. Take him down.",
+			"completion_dialog": "Admiral Chen: Torak is in custody. The Dominion connection is confirmed. The Border Worlds are next — they're planning something big.",
+			"objectives": [
+				{"objective_id": "s2m2_kill1", "description": "Defeat Admiral Torak's fleet", "objective_type": "destroy", "target": "torak_fleet", "amount": 3},
+				{"objective_id": "s2m2_boss", "description": "Capture Admiral Torak", "objective_type": "destroy", "target": "admiral_torak", "amount": 1}
+			],
+			"rewards": {"xp": 1200, "credits": 6000, "reputation": {"federation": 200}},
+			"prerequisites": ["story_s2_m1"],
+			"next_missions": ["story_s3_m1"],
+			"sector": 2
+		},
+		{
+			"mission_id": "story_s3_m1",
+			"title": "Relic of the Ancients",
+			"description": "The Border Worlds are in chaos. A smuggler claims to have found an Ancient artifact. Secure it before the Dominion does.",
+			"mission_type": "main",
+			"starting_dialog": "Smuggler: I found something big in the debris of the old war. A relic. The Dominion wants it. The Void Nomads want it. Everyone wants it. I just want to stay alive.",
+			"completion_dialog": "The artifact hums with power. You feel a strange presence — as if something is watching through it. The coordinates of another artifact are engraved on its surface.",
+			"objectives": [
+				{"objective_id": "s3m1_find", "description": "Locate the smuggler's hideout", "objective_type": "go_to", "target": "smuggler_hideout", "amount": 1},
+				{"objective_id": "s3m1_defend", "description": "Defend the smuggler from Dominion assassins", "objective_type": "survive_turns", "target": "dominion_assassins", "amount": 4},
+				{"objective_id": "s3m1_recover", "description": "Recover the Artifact of Power", "objective_type": "gather", "target": "artifact_of_power", "amount": 1}
+			],
+			"rewards": {"xp": 2000, "credits": 8000, "reputation": {"void_nomads": 150}, "items": [{"blueprint_id": "void_shard", "count": 1}]},
+			"prerequisites": ["story_s2_m2"],
+			"next_missions": ["story_s4_m1"],
+			"sector": 3,
+			"artifact": "artifact_of_power"
+		},
+		{
+			"mission_id": "story_s4_m1",
+			"title": "The Zerath Collective",
+			"description": "The Zerath Collective controls this sector. They have developed advanced ion technology that could be crucial against the Dominion.",
+			"mission_type": "main",
+			"starting_dialog": "Zerath Ambassador: You carry the scent of the Ancients. Interesting. We may have common interests. Help us with a nest of Void Spectres, and we will share our knowledge.",
+			"completion_dialog": "Ambassador: You have proven yourself. The ion technology is yours. But remember — every gift from the Zerath comes with a price.",
+			"objectives": [
+				{"objective_id": "s4m1_negotiate", "description": "Meet with the Zerath Ambassador", "objective_type": "go_to", "target": "zerath_station", "amount": 1},
+				{"objective_id": "s4m1_clear", "description": "Clear the Void Spectre nest", "objective_type": "destroy", "target": "void_spectre", "amount": 5}
+			],
+			"rewards": {"xp": 3000, "credits": 12000, "reputation": {"zerath": 250}, "items": [{"blueprint_id": "ion_cannon_mk2", "count": 1}]},
+			"prerequisites": ["story_s3_m1"],
+			"next_missions": ["story_s5_m1"],
+			"sector": 4
+		},
+		{
+			"mission_id": "story_s5_m1",
+			"title": "The Iron Wastes",
+			"description": "Civil war rages in the Dominion territories. A faction within the Dominion wants to negotiate — they claim to have another artifact.",
+			"mission_type": "main",
+			"starting_dialog": "Defector: I am General Vex of the Iron Dominion. We have the Artifact of Protection. The war council wants to use it as a weapon. I want to prevent that. Help me, and it is yours.",
+			"completion_dialog": "General Vex: The artifact is secured. With this, you can shield entire fleets. The Void Rifts hold the key to the third artifact — the Artifact of Travel.",
+			"objectives": [
+				{"objective_id": "s5m1_meet", "description": "Meet General Vex at the rendezvous point", "objective_type": "go_to", "target": "rendezvous_point", "amount": 1},
+				{"objective_id": "s5m1_hack", "description": "Sabotage the Dominion war council's command ship", "objective_type": "go_to", "target": "command_ship", "amount": 1},
+				{"objective_id": "s5m1_escape2", "description": "Escape the Dominion fleet", "objective_type": "survive_turns", "target": "dominion_fleet", "amount": 6}
+			],
+			"rewards": {"xp": 5000, "credits": 20000, "reputation": {"dominion": 300}, "items": [{"blueprint_id": "armor_dominion_plate", "count": 1}]},
+			"prerequisites": ["story_s4_m1"],
+			"next_missions": ["story_s6_m1"],
+			"sector": 5,
+			"artifact": "artifact_of_protection"
+		},
+		{
+			"mission_id": "story_s6_m1",
+			"title": "The Voice in the Void",
+			"description": "The Void Rifts are unstable space-time anomalies. Something is calling from within. The final artifact — the Artifact of Travel — is hidden here.",
+			"mission_type": "main",
+			"starting_dialog": "Void Nomad Guide: The Rifts whisper, captain. They speak of a great consciousness sleeping in the Ancient Core. The Artifact of Travel can open the way. But the Rifts are treacherous.",
+			"completion_dialog": "All three artifacts resonate together. A star chart appears — the path to the Ancient Core in Sector 7. The final journey awaits.",
+			"objectives": [
+				{"objective_id": "s6m1_navigate", "description": "Navigate through the Void Rift maze", "objective_type": "go_to", "target": "rift_exit", "amount": 1},
+				{"objective_id": "s6m1_guardian", "description": "Defeat the Rift Guardian", "objective_type": "destroy", "target": "rift_guardian", "amount": 1},
+				{"objective_id": "s6m1_artifact3", "description": "Claim the Artifact of Travel", "objective_type": "gather", "target": "artifact_of_travel", "amount": 1}
+			],
+			"rewards": {"xp": 8000, "credits": 30000, "reputation": {"void_nomads": 350}},
+			"prerequisites": ["story_s5_m1"],
+			"next_missions": ["final_f1_awakening"],
+			"sector": 6,
+			"artifact": "artifact_of_travel"
+		}
+	],
+	"final_act": [
+		{
+			"mission_id": "final_f1_awakening",
+			"title": "F1: The Awakening",
+			"description": "The Ancient Core looms before you. The Custodians have detected the artifacts. You must convince them — or fight through.",
+			"mission_type": "main",
+			"starting_dialog": "Ancient Custodian: You carry the Three Keys. We have watched you since the Border Worlds. The Consciousness stirs. You may enter — but only those worthy may face the Nexus.",
+			"completion_dialog": "The path is open. Three trials await. Prepare yourself for the hardest battles of your life.",
+			"objectives": [
+				{"objective_id": "final_f1_approach", "description": "Approach the Ancient Core", "objective_type": "go_to", "target": "ancient_core", "amount": 1},
+				{"objective_id": "final_f1_dialogue", "description": "Prove your worth to the Ancient Custodians", "objective_type": "go_to", "target": "custodian_throne", "amount": 1}
+			],
+			"rewards": {"xp": 15000, "credits": 50000, "reputation": {"ancient": 500}},
+			"prerequisites": ["story_s6_m1"],
+			"next_missions": ["final_f2_trials"],
+			"sector": 7
+		},
+		{
+			"mission_id": "final_f2_trials",
+			"title": "F2: The Three Trials",
+			"description": "Three trials await: Combat — survive 8 waves. Strategy — navigate a trap-filled maze in 20 moves. Survival — destroy 3 generators while your energy drains.",
+			"mission_type": "main",
+			"starting_dialog": "Custodian: First — prove your strength. Second — prove your mind. Third — prove your will. Survive all three, and the Void Key is yours.",
+			"completion_dialog": "The Void Key glows in your hands. The Nexus chamber is opening. The Ancient Consciousness awaits.",
+			"objectives": [
+				{"objective_id": "final_f2_combat", "description": "Survive 8 waves of elite guardians (Combat Trial)", "objective_type": "survive_turns", "target": "combat_trial", "amount": 8},
+				{"objective_id": "final_f2_strategy", "description": "Navigate the trap maze in 20 moves (Strategy Trial)", "objective_type": "go_to", "target": "maze_exit", "amount": 1},
+				{"objective_id": "final_f2_survival", "description": "Destroy 3 generators while energy drains (Survival Trial)", "objective_type": "destroy", "target": "energy_generator", "amount": 3}
+			],
+			"rewards": {"xp": 30000, "credits": 75000, "reputation": {"ancient": 1000}, "items": [{"blueprint_id": "void_key", "count": 1}]},
+			"prerequisites": ["final_f1_awakening"],
+			"next_missions": ["final_f3_nexus"],
+			"sector": 7
+		},
+		{
+			"mission_id": "final_f3_nexus",
+			"title": "F3: The Nexus",
+			"description": "The Ancient Consciousness. Four phases. Your choices and crew will determine the fate of the galaxy.",
+			"mission_type": "main",
+			"starting_dialog": "Ancient Consciousness: So. You have come. Through fire, void, and time. The galaxy has many paths. Choose yours wisely — this choice cannot be unmade.",
+			"completion_dialog": "The galaxy trembles. A new age begins. Your name will echo through eternity.",
+			"objectives": [
+				{"objective_id": "final_f3_phase1", "description": "Phase 1: Survive the Ancient Consciousness's beams", "objective_type": "survive_turns", "target": "consciousness_phase1", "amount": 3},
+				{"objective_id": "final_f3_phase2", "description": "Phase 2: Defeat the mirror copies", "objective_type": "destroy", "target": "consciousness_copy", "amount": 4},
+				{"objective_id": "final_f3_phase3", "description": "Phase 3: Escape the gravity well and destroy the core", "objective_type": "destroy", "target": "consciousness_core", "amount": 1},
+				{"objective_id": "final_f3_phase4", "description": "Phase 4: Final confrontation — no shields, true damage only", "objective_type": "destroy", "target": "ancient_consciousness", "amount": 1}
+			],
+			"rewards": {"xp": 100000, "credits": 200000, "reputation": {"ancient": 2000, "federation": 500, "zerath": 500, "dominion": 500, "void_nomads": 500}},
+			"prerequisites": ["final_f2_trials"],
+			"sector": 7,
+			"ending_mission": true
+		}
+	]
+}
