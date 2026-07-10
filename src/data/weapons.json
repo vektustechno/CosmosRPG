@@ -1,0 +1,74 @@
+[
+	{
+		"weapon_id": "laser_mk1",
+		"weapon_name": "Laser Mk1",
+		"damage": 10,
+		"damage_type": "energy",
+		"range": 6,
+		"ap_cost": 2,
+		"cooldown": 0,
+		"accuracy": 0.95,
+		"aoe_radius": 0,
+		"status_effect": {}
+	},
+	{
+		"weapon_id": "plasma_cannon",
+		"weapon_name": "Plasma Cannon",
+		"damage": 25,
+		"damage_type": "explosive",
+		"range": 4,
+		"ap_cost": 3,
+		"cooldown": 1,
+		"accuracy": 0.8,
+		"aoe_radius": 1,
+		"status_effect": {"type": "burn", "chance": 0.5, "duration": 3}
+	},
+	{
+		"weapon_id": "missile_launcher",
+		"weapon_name": "Missile Launcher",
+		"damage": 35,
+		"damage_type": "kinetic",
+		"range": 8,
+		"ap_cost": 3,
+		"cooldown": 2,
+		"accuracy": 0.7,
+		"aoe_radius": 0,
+		"status_effect": {}
+	},
+	{
+		"weapon_id": "ion_cannon",
+		"weapon_name": "Ion Cannon",
+		"damage": 5,
+		"damage_type": "ion",
+		"range": 5,
+		"ap_cost": 3,
+		"cooldown": 1,
+		"accuracy": 0.85,
+		"aoe_radius": 0,
+		"status_effect": {"type": "system_disabled", "chance": 0.4, "duration": 2}
+	},
+	{
+		"weapon_id": "railgun",
+		"weapon_name": "Railgun",
+		"damage": 40,
+		"damage_type": "kinetic",
+		"range": 10,
+		"ap_cost": 4,
+		"cooldown": 2,
+		"accuracy": 0.9,
+		"aoe_radius": 0,
+		"status_effect": {}
+	},
+	{
+		"weapon_id": "emp_burst",
+		"weapon_name": "EMP Burst",
+		"damage": 0,
+		"damage_type": "emp",
+		"range": 3,
+		"ap_cost": 3,
+		"cooldown": 3,
+		"accuracy": 1.0,
+		"aoe_radius": 2,
+		"status_effect": {"type": "emp", "chance": 1.0, "duration": 1}
+	}
+]

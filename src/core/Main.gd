@@ -12,12 +12,15 @@ var camera_start: Vector2
 var zoom_level: float = 1.0
 
 var player_ship: Ship
+var enemy_ship: Ship
 var selected_hex: Vector2 = Vector2.ZERO
+var mode: String = "move"
 
 func _ready() -> void:
 	title_label.hide()
 	Global.hex_grid = hex_grid
 	_spawn_player_ship()
+	_spawn_enemy_ship()
 
 func _spawn_player_ship() -> void:
 	var ship_scene = preload("res://src/ship/Ship.tscn")
@@ -27,6 +30,14 @@ func _spawn_player_ship() -> void:
 	player_ship.grid_pos = Vector2(5, 5)
 	game_world.add_child(player_ship)
 	Global.player_ship = player_ship
+
+func _spawn_enemy_ship() -> void:
+	var ship_scene = preload("res://src/ship/Ship.tscn")
+	enemy_ship = ship_scene.instantiate()
+	enemy_ship.is_player = false
+	enemy_ship.ship_class_id = "fighter"
+	enemy_ship.grid_pos = Vector2(12, 8)
+	game_world.add_child(enemy_ship)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -45,10 +56,16 @@ func _input(event: InputEvent) -> void:
 
 		elif event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 			_on_click()
+		elif event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed:
+			_on_right_click()
 
 	if event is InputEventMouseMotion and dragging:
 		var delta = get_global_mouse_position() - drag_start
 		camera.position = camera_start - delta * camera.zoom.x
+
+func _on_right_click() -> void:
+	mode = "attack" if mode == "move" else "move"
+	print("Mode: " + mode)
 
 func _on_click() -> void:
 	var mouse_pos = get_global_mouse_position()
@@ -59,6 +76,13 @@ func _on_click() -> void:
 		return
 
 	var axial = clicked.axial
+
+	if mode == "move":
+		_handle_move_click(axial)
+	else:
+		_handle_attack_click(axial)
+
+func _handle_move_click(axial: Vector2) -> void:
 	var obstacles = []
 	for entry in hex_grid.hex_map.values():
 		if entry.occupied != null and entry.occupied != player_ship:
@@ -81,6 +105,56 @@ func _on_click() -> void:
 		if not path.is_empty():
 			player_ship.move_to(axial, path)
 			selected_hex = player_ship.grid_pos
-			highlighter.highlight_cells([axial], Color(0, 1, 0, 0.4), 2)
 		else:
 			selected_hex = Vector2.ZERO
+		highlighter.clear_highlights()
+
+func _handle_attack_click(axial: Vector2) -> void:
+	highlighter.clear_highlights()
+	var obstacle_hexes = []
+	for entry in hex_grid.hex_map.values():
+		if entry.blocked:
+			obstacle_hexes.append(entry.axial)
+	
+	var in_range = false
+	var weapon_sys = null
+	for child in player_ship.get_children():
+		if child is WeaponSystem:
+			weapon_sys = child
+			break
+	
+	if not weapon_sys:
+		return
+	
+	var los = HexCoord.line_of_sight(player_ship.grid_pos, axial)
+	var blocked = false
+	for hex_pos in los:
+		for obs in obstacle_hexes:
+			if hex_pos == obs:
+				blocked = true
+				break
+		if blocked:
+			break
+	
+	if blocked:
+		print("Line of sight blocked!")
+		var los_highlight = []
+		for h in los:
+			los_highlight.append(h)
+		highlighter.highlight_cells(los_highlight, Color(1, 0, 0, 0.3))
+		return
+	
+	var mounts = weapon_sys.get_all_fireable_weapons(axial)
+	
+	if mounts.is_empty():
+		print("No weapons in range/arc!")
+		return
+	
+	var target = null
+	if enemy_ship and enemy_ship.grid_pos == axial:
+		target = enemy_ship
+	
+	if target:
+		var fired = weapon_sys.fire_weapon(mounts[0].index, target)
+		if fired:
+			highlighter.highlight_cells([axial], Color(1, 0.5, 0, 0.5), 3)

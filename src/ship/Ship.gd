@@ -46,6 +46,25 @@ func _setup_from_class() -> void:
 			max_shields[side] = shield_hp
 		shield_regen = max(1, shield_hp / 10)
 	
+	var weapon_count = ship_class.slots.get("weapon", 2)
+	weapon_mounts.clear()
+	var all_weapons = WeaponData.load_all()
+	var arc_types = ["forward", "forward", "broadside_left", "broadside_right", "turret", "turret", "rear", "forward"]
+	for i in range(weapon_count):
+		var mount = WeaponMount.new()
+		mount.mount_id = "mount_%d" % i
+		mount.arc_type = arc_types[i % arc_types.size()]
+		if i == 0 and not all_weapons.is_empty():
+			mount.weapon = all_weapons[0]
+		mount.arc_angle = 90.0 if mount.arc_type == "forward" or mount.arc_type == "rear" else 180.0
+		if mount.arc_type == "turret":
+			mount.arc_angle = 360.0
+		weapon_mounts.append(mount)
+	
+	var weapon_system = WeaponSystem.new()
+	weapon_system.ship = self
+	add_child(weapon_system)
+	
 	max_action_points = ship_class.base_speed + 3
 	action_points = max_action_points
 
