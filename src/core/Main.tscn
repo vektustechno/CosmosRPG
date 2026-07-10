@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0sm0rpgmain"]
+[gd_scene load_steps=4 format=3 uid="uid://c0sm0rpgmain"]
 
 [ext_resource type="Script" path="res://src/core/Main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://c0sm0rpghexgrid" path="res://src/grid/HexGrid.tscn" id="2"]
+[ext_resource type="Script" path="res://src/grid/HexHighlighter.gd" id="3"]
 
 [node name="Main" type="Control"]
 anchors_preset = 15
@@ -20,6 +21,9 @@ position = Vector2(160, 160)
 zoom = Vector2(1, 1)
 
 [node name="HexGrid" parent="GameWorld" instance=ExtResource("2")]
+
+[node name="HexHighlighter" type="Node2D" parent="GameWorld"]
+script = ExtResource("3")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 layer = 1
