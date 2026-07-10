@@ -2,9 +2,9 @@ class_name ItemGenerator
 extends RefCounted
 
 static func generate_item(blueprint_id: String, rarity: String = "common", level: int = 1) -> EquipmentData:
-	var blueprints = _load_blueprints()
-	var bp = blueprints.get(blueprint_id)
-	if not bp:
+	var all_blueprints = _load_blueprints()
+	var bp = _find_blueprint(all_blueprints, blueprint_id)
+	if bp.is_empty():
 		return null
 	
 	var item = EquipmentData.new()
@@ -114,6 +114,12 @@ static func _try_set_assignment(item: EquipmentData) -> void:
 	if mapped in compatible_pieces:
 		item.set_id = chosen_id
 		item.set_piece = mapped
+
+static func _find_blueprint(blueprints: Array, blueprint_id: String) -> Dictionary:
+	for bp in blueprints:
+		if bp.get("item_id", "") == blueprint_id:
+			return bp
+	return {}
 
 static func _load_blueprints() -> Array:
 	var file = FileAccess.open("res://src/data/item_blueprints.json", FileAccess.READ)
