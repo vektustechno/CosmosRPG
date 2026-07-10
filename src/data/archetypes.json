@@ -1,0 +1,66 @@
+[
+	{
+		"archetype_id": "kamikaze",
+		"preferred_range_min": 1,
+		"preferred_range_max": 1,
+		"flee_threshold": 0.0,
+		"aggro_range": 20,
+		"description": "Charges straight at the nearest enemy, fires everything, never retreats"
+	},
+	{
+		"archetype_id": "aggressor",
+		"preferred_range_min": 2,
+		"preferred_range_max": 4,
+		"flee_threshold": 0.1,
+		"aggro_range": 14,
+		"description": "Moves aggressively toward target, keeps close-mid range"
+	},
+	{
+		"archetype_id": "brawler",
+		"preferred_range_min": 1,
+		"preferred_range_max": 2,
+		"flee_threshold": 0.08,
+		"aggro_range": 10,
+		"description": "Goes right into melee range, uses short-range weapons and ramming"
+	},
+	{
+		"archetype_id": "skirmisher",
+		"preferred_range_min": 4,
+		"preferred_range_max": 7,
+		"flee_threshold": 0.2,
+		"aggro_range": 15,
+		"description": "Kites at mid-long range, dodges when approached"
+	},
+	{
+		"archetype_id": "sniper",
+		"preferred_range_min": 7,
+		"preferred_range_max": 12,
+		"flee_threshold": 0.25,
+		"aggro_range": 18,
+		"description": "Seeks maximum range, holds position, uses long-range weapons"
+	},
+	{
+		"archetype_id": "tank",
+		"preferred_range_min": 2,
+		"preferred_range_max": 4,
+		"flee_threshold": 0.05,
+		"aggro_range": 10,
+		"description": "Stands between allies and enemy, presents strong shield side"
+	},
+	{
+		"archetype_id": "shield_support",
+		"preferred_range_min": 3,
+		"preferred_range_max": 5,
+		"flee_threshold": 0.25,
+		"aggro_range": 12,
+		"description": "Stays behind tanks, repairs allies' shields"
+	},
+	{
+		"archetype_id": "juggernaut",
+		"preferred_range_min": 2,
+		"preferred_range_max": 5,
+		"flee_threshold": 0.0,
+		"aggro_range": 14,
+		"description": "Slowly advances, ignores evasion, focuses one target until destroyed"
+	}
+]

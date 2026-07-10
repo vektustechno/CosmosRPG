@@ -26,6 +26,7 @@ var status_effects: Dictionary = {}
 
 func _ready() -> void:
 	hex_grid_ref = Global.hex_grid
+	add_to_group("ships")
 	_setup_from_class()
 	position = HexCoord.axial_to_pixel(grid_pos.x, grid_pos.y)
 	_update_sprite()
@@ -114,57 +115,13 @@ func rotate_to(new_facing: int) -> bool:
 	return true
 
 func take_damage(amount: int, damage_type: String, from_direction: String) -> Dictionary:
-	var shield_remaining = current_shields.get(from_direction, 0)
-	var hull_damage = amount
-	var shield_damage = 0
-	
-	if damage_type == "true":
-		hull_damage = amount
-	elif damage_type == "energy":
-		if shield_remaining > 0:
-			shield_damage = min(shield_remaining, amount * 2)
-			hull_damage = max(0, amount - shield_damage / 2)
-		hull_damage = int(hull_damage * 0.5)
-	elif damage_type == "kinetic":
-		if shield_remaining > 0:
-			shield_damage = min(shield_remaining, int(amount * 0.5))
-			hull_damage = max(0, amount - shield_damage * 2)
-	elif damage_type == "explosive":
-		if shield_remaining > 0:
-			shield_damage = min(shield_remaining, amount)
-			hull_damage = max(1, amount - shield_damage)
-		hull_damage = int(hull_damage * 0.75)
-	elif damage_type == "ion":
-		hull_damage = 0
-		var disabled = randi() % 2 == 0
-		if disabled:
-			status_effects["system_disabled"] = 2
-	elif damage_type == "emp":
-		shield_damage = shield_remaining
-		hull_damage = 0
-		status_effects["emp"] = 1
-	
-	current_shields[from_direction] = max(0, shield_remaining - shield_damage)
-	current_hp = max(0, current_hp - hull_damage)
-	
-	var is_crit = randf() < 0.1
-	var system_hit = ""
-	if is_crit:
-		system_hit = _apply_critical_hit()
-	
-	return {
-		"shield_damage": shield_damage,
-		"hull_damage": hull_damage,
-		"crit": is_crit,
-		"system_hit": system_hit,
-		"destroyed": current_hp <= 0
+	var attack = {
+		"damage": amount,
+		"damage_type": damage_type,
+		"crit_bonus": 0.0
 	}
-
-func _apply_critical_hit() -> String:
-	var systems = ["engine", "weapon", "reactor", "shield_gen", "bridge", "cargo"]
-	var hit = systems[randi() % systems.size()]
-	status_effects[hit + "_hit"] = 2
-	return hit
+	var result = DamageCalculator.calculate_damage(attack, self, from_direction)
+	return result
 
 func regenerate_shields() -> void:
 	for side in current_shields.keys():

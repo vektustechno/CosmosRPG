@@ -82,39 +82,27 @@ func _on_end_turn() -> void:
 		turn_manager.end_turn()
 
 func _call_enemy_ai(ship: Ship) -> void:
-	var weapon_sys = _get_weapon_system(ship)
-	if not weapon_sys:
-		await get_tree().create_timer(0.5).timeout
-		turn_manager.end_turn()
-		return
+	var ai = AIController.new()
+	ai.ship = ship
+	var archetypes_list = ["aggressor", "skirmisher", "brawler", "sniper", "tank", "juggernaut", "kamikaze", "shield_support"]
+	ai.archetype_id = archetypes_list[randi() % archetypes_list.size()]
+	ai._ready()
 	
-	var target = player_ship
-	var dist = HexCoord.hex_distance(ship.grid_pos, target.grid_pos)
+	var actions = ai.get_actions()
+	for action in actions:
+		match action.action_type:
+			AIAction.Type.FIRE:
+				if action.target_ship and action.weapon_index >= 0:
+					var weapon_sys = _get_weapon_system(ship)
+					if weapon_sys:
+						weapon_sys.fire_weapon(action.weapon_index, action.target_ship)
+			AIAction.Type.MOVE:
+				var obstacles = _get_obstacles()
+				var path = Pathfinder.find_path(ship.grid_pos, action.target_pos, obstacles)
+				if not path.is_empty():
+					ship.move_to(action.target_pos, path)
 	
-	var mounts = weapon_sys.get_all_fireable_weapons(target.grid_pos)
-	if not mounts.is_empty():
-		var fired = weapon_sys.fire_weapon(mounts[0].index, target)
-		await get_tree().create_timer(0.3).timeout
-	
-	if dist > 3:
-		var obstacles = _get_obstacles()
-		var reachable = Pathfinder.get_reachable(ship.grid_pos, ship.action_points, obstacles)
-		var best_axial = ship.grid_pos
-		var best_dist = dist
-		for key in reachable.keys():
-			var parts = key.split(",")
-			var axial = Vector2(int(parts[0]), int(parts[1]))
-			var d = HexCoord.hex_distance(axial, target.grid_pos)
-			if d < best_dist and d > 2:
-				best_dist = d
-				best_axial = axial
-		if best_axial != ship.grid_pos:
-			var path = Pathfinder.find_path(ship.grid_pos, best_axial, obstacles)
-			if not path.is_empty():
-				ship.move_to(best_axial, path)
-				await get_tree().create_timer(0.2).timeout
-	
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.5).timeout
 	turn_manager.end_turn()
 
 func _get_weapon_system(ship: Ship) -> WeaponSystem:
