@@ -89,6 +89,26 @@ func get_actions() -> Array:
 	
 	var dist = HexCoord.hex_distance(ship.grid_pos, current_target.grid_pos)
 	
+	for tactic in tactics:
+		if tactic.evaluate(ship, current_allies, current_enemies):
+			var tactic_actions = tactic.execute(ship, current_target)
+			for ta in tactic_actions:
+				if ta.get("ap_cost", 0) <= ship.action_points:
+					var action = AIAction.new()
+					match ta.get("action", ""):
+						"move":
+							action.action_type = AIAction.Type.MOVE
+							action.target_pos = ta.get("target_pos", ship.grid_pos)
+							action.ap_cost = ta.get("ap_cost", 1)
+						"fire":
+							action.action_type = AIAction.Type.FIRE
+							action.target_ship = ta.get("target_ship", current_target)
+							action.weapon_index = ta.get("weapon_index", 0)
+							action.ap_cost = ta.get("ap_cost", 2)
+					if action.action_type != AIAction.Type.WAIT:
+						ship.action_points -= action.ap_cost
+						actions.append(action)
+	
 	while ship.action_points > 0:
 		var action = _decide_next_action(weapon_sys, dist)
 		if action.action_type == AIAction.Type.WAIT:

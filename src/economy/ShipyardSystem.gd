@@ -1,3 +1,4 @@
+class_name ShipyardSystem
 extends RefCounted
 
 static func get_available_ships(station_faction: String, player_level: int, player_reputation: Dictionary) -> Array:

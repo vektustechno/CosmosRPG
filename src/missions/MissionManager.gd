@@ -1,3 +1,4 @@
+class_name MissionManager
 extends Node
 
 signal mission_started(mission: MissionData)

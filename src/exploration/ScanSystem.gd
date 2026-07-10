@@ -1,3 +1,4 @@
+class_name ScanSystem
 extends RefCounted
 
 signal scan_completed(result: Dictionary)

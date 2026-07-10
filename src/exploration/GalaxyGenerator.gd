@@ -1,3 +1,4 @@
+class_name GalaxyGenerator
 extends RefCounted
 
 const SECTOR_TYPES = ["starter", "trade", "frontier", "faction_hq", "danger", "anomaly", "ancient"]

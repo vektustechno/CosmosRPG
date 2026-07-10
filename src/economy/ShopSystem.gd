@@ -1,3 +1,4 @@
+class_name ShopSystem
 extends RefCounted
 
 static func generate_inventory(station: StationData, player_level: int) -> Array:

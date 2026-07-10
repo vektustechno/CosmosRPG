@@ -1,3 +1,4 @@
+class_name GatheringSystem
 extends RefCounted
 
 static func can_gather(ship: Ship, object: Dictionary) -> bool:

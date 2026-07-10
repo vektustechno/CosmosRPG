@@ -28,12 +28,13 @@ func refresh(ship: Ship) -> void:
 	if not ship:
 		return
 	
-	hp_bar.max_value = max_hp
+	hp_bar.max_value = ship.max_hp
 	hp_bar.value = ship.current_hp
-	hp_label.text = "%d / %d" % [ship.current_hp, max_hp]
+	hp_label.text = "%d / %d" % [ship.current_hp, ship.max_hp]
 	
+	var shield_bars = {"front": shield_front, "left": shield_left, "right": shield_right, "rear": shield_rear}
 	for side in ["front", "left", "right", "rear"]:
-		var bar = get("shield_" + side)
+		var bar = shield_bars.get(side)
 		if bar:
 			bar.max_value = ship.max_shields.get(side, 1)
 			bar.value = ship.current_shields.get(side, 0)

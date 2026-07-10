@@ -1,3 +1,4 @@
+class_name HexGrid
 extends Node2D
 
 @export var grid_size: Vector2i = Vector2i(20, 20)

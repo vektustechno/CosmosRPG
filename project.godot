@@ -1,20 +1,37 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
+
 config/name="CosmoRPG"
 config/description="Top-down space RPG on hex grid"
 run/main_scene="res://src/core/Main.tscn"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.7")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Global="*res://src/core/Global.gd"
+GameState="*res://src/core/GameState.gd"
+
 [display]
+
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/stretch/mode="viewport"
 window/size/stretch/aspect="keep"
-window/dpi/allow_hidpi=true
-
-[autoload]
-Global="*res://src/core/Global.gd"
-GameState="*res://src/core/GameState.gd"
 
 [rendering]
+
 renderer/rendering_method="gl_compatibility"

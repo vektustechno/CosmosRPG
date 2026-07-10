@@ -1,3 +1,4 @@
+class_name ItemGenerator
 extends RefCounted
 
 static func generate_item(blueprint_id: String, rarity: String = "common", level: int = 1) -> EquipmentData:

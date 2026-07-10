@@ -1,3 +1,4 @@
+class_name Pathfinder
 extends RefCounted
 
 static func find_path(from_axial: Vector2, to_axial: Vector2, obstacles: Array) -> Array:

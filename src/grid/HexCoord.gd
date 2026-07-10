@@ -1,3 +1,4 @@
+class_name HexCoord
 extends RefCounted
 
 const HEX_SIZE: float = 16.0

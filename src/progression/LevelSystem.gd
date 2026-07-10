@@ -1,3 +1,4 @@
+class_name LevelSystem
 extends Node
 
 signal level_up(new_level: int)

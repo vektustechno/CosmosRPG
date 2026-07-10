@@ -1,3 +1,4 @@
+class_name FactionSystem
 extends Node
 
 var factions: Dictionary = {}

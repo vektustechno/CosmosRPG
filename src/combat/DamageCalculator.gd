@@ -1,3 +1,4 @@
+class_name DamageCalculator
 extends RefCounted
 
 static func calculate_damage(attack: Dictionary, defender: Ship, hit_arc: String) -> Dictionary:
