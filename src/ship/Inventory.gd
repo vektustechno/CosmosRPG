@@ -15,7 +15,9 @@ func add_item(item: EquipmentData) -> bool:
 func remove_item(index: int) -> EquipmentData:
 	if index < 0 or index >= items.size():
 		return null
-	return items.remove_at(index)
+	var item = items[index]
+	items.remove_at(index)
+	return item
 
 func get_item(index: int) -> EquipmentData:
 	if index < 0 or index >= items.size():
