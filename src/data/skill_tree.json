@@ -1,0 +1,52 @@
+{
+	"pilot": {
+		"name": "Pilot",
+		"nodes": [
+			{"id": "p1", "name": "Agile Thrusters", "description": "+1 speed", "cost": 1, "requires": [], "effect": {"speed_bonus": 1}},
+			{"id": "p2", "name": "Quick Turns", "description": "+15 turn rate", "cost": 1, "requires": ["p1"], "effect": {"turn_rate_bonus": 15}},
+			{"id": "p3", "name": "Evasion Mastery", "description": "+5% evasion", "cost": 2, "requires": ["p2"], "effect": {"evasion": 0.05}},
+			{"id": "p4", "name": "Afterburner Expert", "description": "Afterburner AP cost -1", "cost": 2, "requires": ["p3"], "effect": {"afterburner_discount": 1}},
+			{"id": "p5", "name": "Ace Pilot (Capstone)", "description": "+2 speed, +30 turn rate", "cost": 3, "requires": ["p4"], "effect": {"speed_bonus": 2, "turn_rate_bonus": 30}}
+		]
+	},
+	"gunnery": {
+		"name": "Gunnery",
+		"nodes": [
+			{"id": "g1", "name": "Steady Aim", "description": "+5% accuracy", "cost": 1, "requires": [], "effect": {"accuracy_bonus": 0.05}},
+			{"id": "g2", "name": "Rapid Fire", "description": "-1 AP cost all weapons", "cost": 2, "requires": ["g1"], "effect": {"ap_cost_discount": 1}},
+			{"id": "g3", "name": "Critical Eye", "description": "+5% crit chance", "cost": 2, "requires": ["g2"], "effect": {"crit_bonus": 0.05}},
+			{"id": "g4", "name": "Weapon Specialist", "description": "+15% weapon damage", "cost": 3, "requires": ["g3"], "effect": {"weapon_damage_bonus": 0.15}},
+			{"id": "g5", "name": "Master Gunner (Capstone)", "description": "+10% crit, +20% damage", "cost": 4, "requires": ["g4"], "effect": {"crit_bonus": 0.10, "weapon_damage_bonus": 0.20}}
+		]
+	},
+	"engineering": {
+		"name": "Engineering",
+		"nodes": [
+			{"id": "e1", "name": "Reinforced Hull", "description": "+50 max HP", "cost": 1, "requires": [], "effect": {"max_hp_bonus": 50}},
+			{"id": "e2", "name": "Shield Tuning", "description": "+10% shield capacity", "cost": 1, "requires": ["e1"], "effect": {"shield_capacity": 10}},
+			{"id": "e3", "name": "Fast Repair", "description": "+15 repair per turn", "cost": 2, "requires": ["e2"], "effect": {"repair_amount": 15}},
+			{"id": "e4", "name": "Power Management", "description": "+25 max power", "cost": 2, "requires": ["e3"], "effect": {"power_bonus": 25}},
+			{"id": "e5", "name": "Chief Engineer (Capstone)", "description": "+30% shield, +50 HP, +10 regen", "cost": 3, "requires": ["e4"], "effect": {"shield_capacity": 30, "max_hp_bonus": 50, "shield_regen_bonus": 10}}
+		]
+	},
+	"science": {
+		"name": "Science",
+		"nodes": [
+			{"id": "s1", "name": "Enhanced Sensors", "description": "+2 scan range", "cost": 1, "requires": [], "effect": {"scan_range_bonus": 2}},
+			{"id": "s2", "name": "Data Analysis", "description": "Reveals enemy weaknesses", "cost": 1, "requires": ["s1"], "effect": {"reveal_weakness": true}},
+			{"id": "s3", "name": "Efficient Mining", "description": "+20% resource yield", "cost": 2, "requires": ["s2"], "effect": {"resource_yield": 0.2}},
+			{"id": "s4", "name": "Anomaly Expert", "description": "Better anomaly outcomes", "cost": 2, "requires": ["s3"], "effect": {"anomaly_bonus": true}},
+			{"id": "s5", "name": "Chief Scientist (Capstone)", "description": "+5 scan, +50% yield, auto-scan", "cost": 3, "requires": ["s4"], "effect": {"scan_range_bonus": 5, "resource_yield": 0.5, "auto_scan": true}}
+		]
+	},
+	"command": {
+		"name": "Command",
+		"nodes": [
+			{"id": "c1", "name": "Leadership", "description": "+5% crew efficiency", "cost": 1, "requires": [], "effect": {"crew_efficiency": 0.05}},
+			{"id": "c2", "name": "Faction Relations", "description": "Reputation gains +20%", "cost": 1, "requires": ["c1"], "effect": {"rep_bonus": 0.2}},
+			{"id": "c3", "name": "Inspiring Presence", "description": "+1 AP per turn for allies", "cost": 2, "requires": ["c2"], "effect": {"ally_ap_bonus": 1}},
+			{"id": "c4", "name": "Fleet Coordinator", "description": "Allied ships +5% damage", "cost": 2, "requires": ["c3"], "effect": {"ally_damage_bonus": 0.05}},
+			{"id": "c5", "name": "Admiral (Capstone)", "description": "+2 AP, +10% all crew, +30% rep", "cost": 3, "requires": ["c4"], "effect": {"max_ap_bonus": 2, "crew_efficiency": 0.10, "rep_bonus": 0.3}}
+		]
+	}
+}
