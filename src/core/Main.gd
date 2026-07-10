@@ -11,11 +11,22 @@ var drag_start: Vector2
 var camera_start: Vector2
 var zoom_level: float = 1.0
 
+var player_ship: Ship
 var selected_hex: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	title_label.hide()
 	Global.hex_grid = hex_grid
+	_spawn_player_ship()
+
+func _spawn_player_ship() -> void:
+	var ship_scene = preload("res://src/ship/Ship.tscn")
+	player_ship = ship_scene.instantiate()
+	player_ship.is_player = true
+	player_ship.ship_class_id = "shuttle"
+	player_ship.grid_pos = Vector2(5, 5)
+	game_world.add_child(player_ship)
+	Global.player_ship = player_ship
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -44,19 +55,32 @@ func _on_click() -> void:
 	var world_pos = camera.get_canvas_transform().affine_inverse() * mouse_pos
 	var clicked = hex_grid.get_hex_by_pixel(world_pos)
 
-	if clicked.is_empty():
+	if clicked.is_empty() or not player_ship:
 		return
 
 	var axial = clicked.axial
+	var obstacles = []
+	for entry in hex_grid.hex_map.values():
+		if entry.occupied != null and entry.occupied != player_ship:
+			obstacles.append(entry.axial)
+		elif entry.blocked:
+			obstacles.append(entry.axial)
+
+	highlighter.clear_highlights()
+
+	if axial == player_ship.grid_pos:
+		selected_hex = Vector2.ZERO
+		return
+
 	if selected_hex == Vector2.ZERO:
-		selected_hex = axial
-		highlighter.highlight_cells([axial], Color(1, 1, 0, 0.4))
-		highlighter.highlight_reachable(axial, 5, [])
+		selected_hex = player_ship.grid_pos
+		highlighter.highlight_cells([axial], Color(1, 1, 0, 0.4), 2)
+		highlighter.highlight_reachable(player_ship.grid_pos, player_ship.action_points, obstacles)
 	else:
-		var obstacles = []
-		highlighter.clear_highlights()
 		var path = highlighter.highlight_path(selected_hex, axial, obstacles)
-		if path.is_empty():
-			selected_hex = axial
-			highlighter.highlight_cells([axial], Color(1, 1, 0, 0.4))
-			highlighter.highlight_reachable(axial, 5, [])
+		if not path.is_empty():
+			player_ship.move_to(axial, path)
+			selected_hex = player_ship.grid_pos
+			highlighter.highlight_cells([axial], Color(0, 1, 0, 0.4), 2)
+		else:
+			selected_hex = Vector2.ZERO
